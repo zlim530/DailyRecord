@@ -55,7 +55,27 @@ namespace ReflectAndAttribute
 
 class Demo
 {
+    /* 
+    属性变量在编译后的代码是：
+    [CompilerGenerated]
+    private int <PropValue>k__BackingField;
+    public int PropValue
+    {
+        [CompilerGenerated]
+        get
+        {
+            return <PropValue>k__BackingField;
+        }
+        [CompilerGenerated]
+        set
+        {
+            <PropValue>k__BackingField = value;
+        }
+    }
+    因此当我们使用 new Demo().PropValue 来访问属性值时本质上是调用了
+    自动编译生成的这个 <PropValue>k__BackingField 字段的 getter 方法
+    */
     public int PropValue { get; set; }
-
+    // 字段
     public int FieldValue;
 }
