@@ -1,4 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
+// See https://aka.ms/new-console-template for more information
 
 #region 线程 Thread 超时机制
 /*var thread = new Thread(Foo);
