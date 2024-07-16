@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.35027.167
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Closures", "Closures\Closures.csproj", "{A4E50DDC-1C3E-4437-87E6-0BDBE758C538}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Closures", "Closures\Closures.csproj", "{A4E50DDC-1C3E-4437-87E6-0BDBE758C538}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FieldAndProperty", "FieldAndProperty\FieldAndProperty.csproj", "{226A3DE5-E554-43FC-ACFD-23F91E368005}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{A4E50DDC-1C3E-4437-87E6-0BDBE758C538}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A4E50DDC-1C3E-4437-87E6-0BDBE758C538}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A4E50DDC-1C3E-4437-87E6-0BDBE758C538}.Release|Any CPU.Build.0 = Release|Any CPU
+		{226A3DE5-E554-43FC-ACFD-23F91E368005}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{226A3DE5-E554-43FC-ACFD-23F91E368005}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{226A3DE5-E554-43FC-ACFD-23F91E368005}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{226A3DE5-E554-43FC-ACFD-23F91E368005}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
