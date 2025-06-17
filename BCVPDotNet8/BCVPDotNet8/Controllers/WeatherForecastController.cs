@@ -1,9 +1,11 @@
+using BCVPDotNet8.Model;
+using BCVPDotNet8.Service;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BCVPDotNet8.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -28,6 +30,14 @@ namespace BCVPDotNet8.Controllers
                 Summary = Summaries[Random.Shared.Next(Summaries.Length)]
             })
             .ToArray();
+        }
+
+        [HttpGet(Name = "GetUser")]
+        public async Task<List<UserVo>> GetUser()
+        {
+            var userService = new UserService();
+            var userList = await userService.Query();
+            return userList;
         }
     }
 }
