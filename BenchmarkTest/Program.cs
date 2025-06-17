@@ -5,10 +5,61 @@ using BenchmarkDotNet.Attributes;
 using BenchmarkDotNet.Order;
 using BenchmarkDotNet.Running;
 using MoreLinq;
+using BenchmarkTest;
+using CommandLine;
 
 // BenchmarkRunner.Run<ListSortTest>();
 // BenchmarkRunner.Run<ListInitTest>();
-BenchmarkRunner.Run<ListReverseTest>();
+// BenchmarkRunner.Run<ListReverseTest>();
+BenchmarkRunner.Run<LandingPageBenchmarks>();
+
+public class LandingPageBenchmarks
+{
+    private const string TestInputFile = "C:\\Code\\DailyRecord\\BenchmarkTest\\bin\\Release\\net8.0\\10KTestFile.tsv";
+    private const string OutputFileOld = "output_old.txt";
+    private const string OutputFileNew = "output_new.txt";
+    private Options options = new Options();
+
+    [GlobalSetup]
+    public void Setup()
+    {
+        // Generate test input file with 2000 URLs
+        // using (var writer = new StreamWriter(TestInputFile, false, Encoding.UTF8))
+        // {
+        //     for (int i = 0; i < 2000; i++)
+        //     {
+        //         writer.WriteLine($"http://example.com/click/{i}\tSomeOtherData\tAdditionalData");
+        //     }
+        // }
+        if (!File.Exists(TestInputFile))
+        {
+            throw new FileNotFoundException($"Test input file not found: {TestInputFile}");
+        }
+    }
+
+    [Benchmark]
+    public void OriginalCommandProcessor()
+    {
+        // Simulate original Command.cs processing
+        try
+        {
+            Command.Main(new string[] { TestInputFile, OutputFileOld, "-c", "1000", "-w", "1" });
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error in OriginalCommandProcessor: {ex}");
+            throw;
+        }
+    }
+
+    [Benchmark]
+    public async Task NewCommandProcessor()
+    {
+        // Simulate new implementation processing
+        await NewProgram.Main(new string[] { TestInputFile, OutputFileNew, "1000", "1" });
+    }
+}
+
 
 [MemoryDiagnoser(displayGenColumns:false)]
 public class ListSortTest
