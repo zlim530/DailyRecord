@@ -1,5 +1,7 @@
+using AutoMapper;
 using BCVPDotNet8.Model;
 using BCVPDotNet8.Service;
+using BCVPDotNet8.Service.Base;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BCVPDotNet8.Controllers
@@ -14,10 +16,14 @@ namespace BCVPDotNet8.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly IMapper _mapper;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger,
+                                         IMapper mapper
+                                        )
         {
             _logger = logger;
+            _mapper = mapper;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
@@ -38,6 +44,13 @@ namespace BCVPDotNet8.Controllers
             var userService = new UserService();
             var userList = await userService.Query();
             return userList;
+        }
+
+        [HttpGet(Name = "GetBaseUser")]
+        public async Task<List<UserVo>> GetBaseUser()
+        {
+            var baseService = new BaseService<User, UserVo>(_mapper);
+            return await baseService.Query();
         }
     }
 }
