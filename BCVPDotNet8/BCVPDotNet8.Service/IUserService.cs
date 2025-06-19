@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BCVPDotNet8.Service
 {
-    internal interface IUserService
+    public interface IUserService
     {
         Task<List<UserVo>> Query();
     }

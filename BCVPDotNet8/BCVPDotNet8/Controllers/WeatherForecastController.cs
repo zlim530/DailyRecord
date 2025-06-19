@@ -16,14 +16,14 @@ namespace BCVPDotNet8.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
-        private readonly IMapper _mapper;
+        private readonly IBaseService<User, UserVo> _userService;
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger,
-                                         IMapper mapper
+                                        IBaseService<User, UserVo> userService
                                         )
         {
             _logger = logger;
-            _mapper = mapper;
+            _userService = userService;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
@@ -49,8 +49,10 @@ namespace BCVPDotNet8.Controllers
         [HttpGet(Name = "GetBaseUser")]
         public async Task<List<UserVo>> GetBaseUser()
         {
-            var baseService = new BaseService<User, UserVo>(_mapper);
-            return await baseService.Query();
+            //var baseService = new BaseService<User, UserVo>(_mapper);
+            //return await baseService.Query();
+            var userList = await _userService.Query();
+            return userList;
         }
     }
 }

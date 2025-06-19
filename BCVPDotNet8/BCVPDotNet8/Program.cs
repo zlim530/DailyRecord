@@ -1,5 +1,7 @@
 
 using BCVPDotNet8.Extensions;
+using BCVPDotNet8.Repository;
+using BCVPDotNet8.Service.Base;
 using System.Reflection;
 
 namespace BCVPDotNet8
@@ -19,7 +21,9 @@ namespace BCVPDotNet8
 
             builder.Services.AddAutoMapper(new[] { typeof(AutoMapperConfig).Assembly });
             AutoMapperConfig.RegisterMappings();
-            
+
+            builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            builder.Services.AddScoped(typeof(IBaseService<,>), typeof(BaseService<,>));
 
             var app = builder.Build();
 
