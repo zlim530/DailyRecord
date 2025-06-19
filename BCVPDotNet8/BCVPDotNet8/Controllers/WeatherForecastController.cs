@@ -1,4 +1,3 @@
-using AutoMapper;
 using BCVPDotNet8.Model;
 using BCVPDotNet8.Service;
 using BCVPDotNet8.Service.Base;

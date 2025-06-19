@@ -2,11 +2,9 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using BCVPDotNet8.Extensions;
-using BCVPDotNet8.Repository;
-using BCVPDotNet8.Service.Base;
+using BCVPDotNet8.Extensions.ServiceExtensions;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using System.Reflection;
 
 namespace BCVPDotNet8
 {

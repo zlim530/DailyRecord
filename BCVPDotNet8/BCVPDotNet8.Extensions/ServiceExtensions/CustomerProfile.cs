@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using BCVPDotNet8.Model;
 
-namespace BCVPDotNet8.Extensions
+namespace BCVPDotNet8.Extensions.ServiceExtensions
 {
     public class CustomerProfile : Profile
     {
