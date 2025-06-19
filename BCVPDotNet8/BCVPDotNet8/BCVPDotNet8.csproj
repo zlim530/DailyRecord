@@ -11,7 +11,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BCVPDotNet8.Service\BCVPDotNet8.Service.csproj" />
+    <ProjectReference Include="..\BCVPDotNet8.Extensions\BCVPDotNet8.Extensions.csproj" />
   </ItemGroup>
 
 </Project>

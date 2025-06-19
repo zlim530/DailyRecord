@@ -1,7 +1,11 @@
 
+using Autofac;
+using Autofac.Extensions.DependencyInjection;
 using BCVPDotNet8.Extensions;
 using BCVPDotNet8.Repository;
 using BCVPDotNet8.Service.Base;
+using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Reflection;
 
 namespace BCVPDotNet8
@@ -11,9 +15,18 @@ namespace BCVPDotNet8
         public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
+            builder.Host.UseServiceProviderFactory(new AutofacServiceProviderFactory())
+                .ConfigureContainer<ContainerBuilder>(builder => {
+                    builder.RegisterModule<AutofacModuleRegister>();
+                    builder.RegisterModule<AutofacPropertityModuleReg>();
+                });
 
             // Add services to the container.
 
+            // 属性注入激活控制器
+            // ASP.NET Core默认不使用DI获取Controller，是因为DI容器构建完成后就不能变更了，但是Controller是可能有动态加载的需求的。
+            // 需要使用IControllerActivator开启Controller的属性注入，默认不开启。
+            builder.Services.Replace(ServiceDescriptor.Transient<IControllerActivator, ServiceBasedControllerActivator>());
             builder.Services.AddControllers();
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
@@ -22,8 +35,8 @@ namespace BCVPDotNet8
             builder.Services.AddAutoMapper(new[] { typeof(AutoMapperConfig).Assembly });
             AutoMapperConfig.RegisterMappings();
 
-            builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
-            builder.Services.AddScoped(typeof(IBaseService<,>), typeof(BaseService<,>));
+            //builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            //builder.Services.AddScoped(typeof(IBaseService<,>), typeof(BaseService<,>));
 
             var app = builder.Build();
 

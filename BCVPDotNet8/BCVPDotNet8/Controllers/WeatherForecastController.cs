@@ -17,6 +17,8 @@ namespace BCVPDotNet8.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly IBaseService<User, UserVo> _userService;
+        // 属性注入必须使用 public 修饰属性
+        public IBaseService<User, UserVo> _baseUserService { get; set; }
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger,
                                         IBaseService<User, UserVo> userService
@@ -51,7 +53,9 @@ namespace BCVPDotNet8.Controllers
         {
             //var baseService = new BaseService<User, UserVo>(_mapper);
             //return await baseService.Query();
-            var userList = await _userService.Query();
+            
+            //var userList = await _userService.Query();    // 字段-构造函数依赖注入
+            var userList = await _baseUserService.Query();// 属性依赖注入
             return userList;
         }
     }
