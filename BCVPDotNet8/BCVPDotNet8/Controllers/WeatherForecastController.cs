@@ -1,3 +1,4 @@
+using BCVPDotNet8.Common;
 using BCVPDotNet8.Model;
 using BCVPDotNet8.Service;
 using BCVPDotNet8.Service.Base;
@@ -55,6 +56,12 @@ namespace BCVPDotNet8.Controllers
             
             //var userList = await _userService.Query();    // 字段-构造函数依赖注入
             var userList = await _baseUserService.Query();// 属性依赖注入
+
+            // 使用这种方法无法避免硬编码
+            var redisEnable = AppSettings.app(new string[] { "Redis", "Enable"});
+            var redisConnectionString = AppSettings.GetValue("Redis:ConnectionString");
+            Console.WriteLine($"Enable:{redisEnable}, ConnectionString:{redisConnectionString}");
+
             return userList;
         }
     }
