@@ -2,6 +2,7 @@
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using BCVPDotNet8.Common;
+using BCVPDotNet8.Common.Option;
 using BCVPDotNet8.Extensions;
 using BCVPDotNet8.Extensions.ServiceExtensions;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -18,7 +19,11 @@ namespace BCVPDotNet8
                 .ConfigureContainer<ContainerBuilder>(builder => {
                     builder.RegisterModule<AutofacModuleRegister>();
                     builder.RegisterModule<AutofacPropertityModuleReg>();
-                });
+                })
+                .ConfigureAppConfiguration((hostingContext, config) => {
+                    hostingContext.Configuration.ConfiguraeApplication();
+                })
+                ;
 
             // Add services to the container.
 
@@ -37,8 +42,11 @@ namespace BCVPDotNet8
             //builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             //builder.Services.AddScoped(typeof(IBaseService<,>), typeof(BaseService<,>));
 
-            // 配置 AppSettings 类
+            // 二选一即可
+            // 配置 AppSettings 类服务注入
             builder.Services.AddSingleton(new AppSettings(builder.Configuration));
+            // 配置 Option 类
+            builder.Services.AddAllOptionRegister();
 
             var app = builder.Build();
 

@@ -1,8 +1,11 @@
 using BCVPDotNet8.Common;
+using BCVPDotNet8.Common.Option;
 using BCVPDotNet8.Model;
 using BCVPDotNet8.Service;
 using BCVPDotNet8.Service.Base;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
 
 namespace BCVPDotNet8.Controllers
 {
@@ -17,15 +20,19 @@ namespace BCVPDotNet8.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly IBaseService<User, UserVo> _userService;
+        private readonly IOptions<RedisOptions> _redisOptions;
+
         // 属性注入必须使用 public 修饰属性
         public IBaseService<User, UserVo> _baseUserService { get; set; }
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger,
-                                        IBaseService<User, UserVo> userService
+                                        IBaseService<User, UserVo> userService,
+                                        IOptions<RedisOptions> redisOptions
                                         )
         {
             _logger = logger;
             _userService = userService;
+            _redisOptions = redisOptions;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
@@ -61,6 +68,9 @@ namespace BCVPDotNet8.Controllers
             var redisEnable = AppSettings.app(new string[] { "Redis", "Enable"});
             var redisConnectionString = AppSettings.GetValue("Redis:ConnectionString");
             Console.WriteLine($"Enable:{redisEnable}, ConnectionString:{redisConnectionString}");
+
+            var redisOptions = _redisOptions.Value;
+            Console.WriteLine(JsonConvert.SerializeObject(redisOptions));
 
             return userList;
         }
