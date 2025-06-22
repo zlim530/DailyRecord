@@ -1,4 +1,5 @@
 using BCVPDotNet8.Common;
+using BCVPDotNet8.Common.Core;
 using BCVPDotNet8.Common.Option;
 using BCVPDotNet8.Model;
 using BCVPDotNet8.Service;
@@ -72,6 +73,23 @@ namespace BCVPDotNet8.Controllers
             var redisOptions = _redisOptions.Value;
             Console.WriteLine(JsonConvert.SerializeObject(redisOptions));
 
+            return userList;
+        }
+
+
+        /// <summary>
+        /// 通过 App 类获取 UserService：这种方式适用于无法通过构造函数或者属性依赖注入的类，这种方式可以拿到应用程序的所有资源，拿到所有服务
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet(Name = "GetAppUser")]
+        public async Task<List<UserVo>> GetAppUser()
+        {
+            var userServiceObjNew = App.GetService<IBaseService<User, UserVo>>(false);
+            var userList = await userServiceObjNew.Query();
+            var redisOptions = App.GetOptions<RedisOptions>();
+            Console.WriteLine(JsonConvert.SerializeObject(redisOptions));
+
+            Console.WriteLine("api request end ... ");
             return userList;
         }
     }

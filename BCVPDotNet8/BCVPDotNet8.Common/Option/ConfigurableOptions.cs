@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using BCVPDotNet8.Common.Core;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System;
@@ -7,11 +8,11 @@ namespace BCVPDotNet8.Common.Option
 {
     public static class ConfigurableOptions
     {
-        internal static IConfiguration Configuration;
-        public static void ConfiguraeApplication(this IConfiguration configuration)
-        { 
-            Configuration = configuration;
-        }
+        //internal static IConfiguration Configuration;
+        //public static void ConfigureApplication(this IConfiguration configuration)
+        //{
+        //    Configuration = configuration;
+        //}
 
 
         /// <summary>
@@ -24,15 +25,19 @@ namespace BCVPDotNet8.Common.Option
         {
             Type optionsType = typeof(TOptions);
             string path = GetConfigurationPath(optionsType);
-            services.Configure<TOptions>(Configuration.GetSection(path));
-        
+            //services.Configure<TOptions>(Configuration.GetSection(path));
+            // IConfiguration对象从 App 类中获取
+            services.Configure<TOptions>(App.Configuration.GetSection(path));
+
             return services;
         }
 
         public static IServiceCollection AddConfigurableOptions(this IServiceCollection services, Type type)
         {
             string path = GetConfigurationPath(type);
-            var config = Configuration.GetSection(path);
+            //var config = Configuration.GetSection(path);
+            // IConfiguration对象从 App 类中获取
+            var config = App.Configuration.GetSection(path);
 
             Type iOptionsChangeTokenSource = typeof(IOptionsChangeTokenSource<>);
             Type iConfigureOptions = typeof(IConfigureOptions<>);
