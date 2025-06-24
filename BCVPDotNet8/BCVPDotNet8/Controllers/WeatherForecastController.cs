@@ -1,4 +1,5 @@
 using BCVPDotNet8.Common;
+using BCVPDotNet8.Common.Caches;
 using BCVPDotNet8.Common.Core;
 using BCVPDotNet8.Common.Option;
 using BCVPDotNet8.Model;
@@ -7,6 +8,7 @@ using BCVPDotNet8.Service.Base;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using BCVPDotNet8.Common.Caches;
 
 namespace BCVPDotNet8.Controllers
 {
@@ -22,18 +24,21 @@ namespace BCVPDotNet8.Controllers
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly IBaseService<User, UserVo> _userService;
         private readonly IOptions<RedisOptions> _redisOptions;
+        private readonly ICaching _caching;
 
         // 属性注入必须使用 public 修饰属性
         public IBaseService<User, UserVo> _baseUserService { get; set; }
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger,
                                         IBaseService<User, UserVo> userService,
-                                        IOptions<RedisOptions> redisOptions
+                                        IOptions<RedisOptions> redisOptions,
+                                        ICaching caching
                                         )
         {
             _logger = logger;
             _userService = userService;
             _redisOptions = redisOptions;
+            _caching = caching;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
@@ -72,6 +77,18 @@ namespace BCVPDotNet8.Controllers
 
             var redisOptions = _redisOptions.Value;
             Console.WriteLine(JsonConvert.SerializeObject(redisOptions));
+
+            var cacheKey = "lim";
+            List<string> cacheKeys = await _caching.GetAllCacheKeysAsync();
+            await Console.Out.WriteLineAsync("全部keys -->" + JsonConvert.SerializeObject(cacheKeys));
+            await Console.Out.WriteLineAsync("添加一个缓存");
+            await _caching.SetStringAsync(cacheKey, "lim");
+            await Console.Out.WriteLineAsync("全部keys -->" + JsonConvert.SerializeObject(await _caching.GetAllCacheKeysAsync()));
+            await Console.Out.WriteLineAsync("当前key内容-->" + JsonConvert.SerializeObject(await _caching.GetStringAsync(cacheKey)));
+
+            await Console.Out.WriteLineAsync("删除key");
+            await _caching.RemoveAsync(cacheKey);
+            await Console.Out.WriteLineAsync("全部keys -->" + JsonConvert.SerializeObject(await _caching.GetAllCacheKeysAsync()));
 
             return userList;
         }

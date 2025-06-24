@@ -28,6 +28,8 @@ namespace BCVPDotNet8
 
             // Add services to the container.
 
+            #region IOC
+
             // 属性注入激活控制器
             // ASP.NET Core默认不使用DI获取Controller，是因为DI容器构建完成后就不能变更了，但是Controller是可能有动态加载的需求的。
             // 需要使用IControllerActivator开启Controller的属性注入，默认不开启。
@@ -55,6 +57,9 @@ namespace BCVPDotNet8
 
             //builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             //builder.Services.AddScoped(typeof(IBaseService<,>), typeof(BaseService<,>));
+            #endregion
+
+            #region 配置
 
             // 配置：二选一即可
             // 配置 AppSettings 类服务注入
@@ -62,6 +67,11 @@ namespace BCVPDotNet8
             // 配置 Option 类
             builder.Services.AddAllOptionRegister();
             builder.ConfigureApplication();
+            #endregion
+
+
+            // 缓存
+            builder.Services.AddCacheSetup();
 
             var app = builder.Build();
 
