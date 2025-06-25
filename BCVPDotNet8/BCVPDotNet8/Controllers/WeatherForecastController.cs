@@ -8,7 +8,6 @@ using BCVPDotNet8.Service.Base;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
-using BCVPDotNet8.Common.Caches;
 
 namespace BCVPDotNet8.Controllers
 {
@@ -23,6 +22,7 @@ namespace BCVPDotNet8.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
         private readonly IBaseService<User, UserVo> _userService;
+        private readonly IBaseService<Role, RoleVo> _roleService;
         private readonly IOptions<RedisOptions> _redisOptions;
         private readonly ICaching _caching;
 
@@ -31,12 +31,14 @@ namespace BCVPDotNet8.Controllers
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger,
                                         IBaseService<User, UserVo> userService,
+                                        IBaseService<Role, RoleVo> roleService,
                                         IOptions<RedisOptions> redisOptions,
                                         ICaching caching
                                         )
         {
             _logger = logger;
             _userService = userService;
+            _roleService = roleService;
             _redisOptions = redisOptions;
             _caching = caching;
         }
@@ -108,6 +110,17 @@ namespace BCVPDotNet8.Controllers
 
             Console.WriteLine("api request end ... ");
             return userList;
+        }
+
+
+        [HttpGet(Name = "GetBaseRole")]
+        public async Task<List<RoleVo>> GetBaseRole()
+        {
+            Console.WriteLine("Current dir: " + Environment.CurrentDirectory);
+
+            var roleList = await _roleService.Query();
+            Console.WriteLine("api request end...");
+            return roleList;
         }
     }
 }

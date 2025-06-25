@@ -17,6 +17,7 @@ namespace BCVPDotNet8.Service.Base
         public async Task<List<TVo>> Query()
         {
             var entities = await _baseRepository.Query();
+            Console.WriteLine($"In BaseService: _baseRepository 实例 HashCode : {_baseRepository.GetHashCode().ToString()}");
             var llout = _mapper.Map<List<TVo>>(entities);
             return llout;
         }

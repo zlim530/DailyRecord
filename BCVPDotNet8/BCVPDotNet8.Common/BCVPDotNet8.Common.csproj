@@ -18,4 +18,8 @@
     <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BCVPDotNet8.Model\BCVPDotNet8.Model.csproj" />
+  </ItemGroup>
+
 </Project>

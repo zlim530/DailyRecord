@@ -69,6 +69,8 @@ namespace BCVPDotNet8
             builder.ConfigureApplication();
             #endregion
 
+            // ORM(Object-Relational Mapping)：对象关系映射：它把 数据库中的表 映射为 编程语言中的类，把表中的记录映射为类的对象，让你可以用面向对象的方式操作数据库
+            builder.Services.AddSqlsugarSetup();
 
             // 缓存
             builder.Services.AddCacheSetup();
