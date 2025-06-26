@@ -2,7 +2,6 @@
 using BCVPDotNet8.Common.DB;
 using Microsoft.Extensions.DependencyInjection;
 using SqlSugar;
-using SqlSugar.Extensions;
 
 namespace BCVPDotNet8.Extensions.ServiceExtensions
 {

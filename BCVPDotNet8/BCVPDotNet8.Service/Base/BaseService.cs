@@ -14,6 +14,11 @@ namespace BCVPDotNet8.Service.Base
             _baseRepository = baseRepository;
         }
 
+        public async Task<long> Add(TEntity entity)
+        {
+            return await _baseRepository.Add(entity);
+        }
+
         public async Task<List<TVo>> Query()
         {
             var entities = await _baseRepository.Query();

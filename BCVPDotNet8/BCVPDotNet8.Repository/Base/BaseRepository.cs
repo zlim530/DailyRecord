@@ -1,6 +1,4 @@
-﻿using BCVPDotNet8.Model;
-using Newtonsoft.Json;
-using SqlSugar;
+﻿using SqlSugar;
 
 namespace BCVPDotNet8.Repository
 {
@@ -13,6 +11,18 @@ namespace BCVPDotNet8.Repository
         }
 
         public ISqlSugarClient DB => _dbBase;
+
+        /// <summary>
+        /// 写入实体数据
+        /// </summary>
+        /// <param name="entity"></param>
+        /// <returns></returns>
+        /// <exception cref="NotImplementedException"></exception>
+        public async Task<long> Add(TEntity entity)
+        {
+            var insert = _dbBase.Insertable(entity);
+            return await insert.ExecuteReturnSnowflakeIdAsync();
+        }
 
         public async Task<List<TEntity>> Query()
         {
