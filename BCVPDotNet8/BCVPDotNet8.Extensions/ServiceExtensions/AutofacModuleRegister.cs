@@ -1,6 +1,7 @@
 ﻿using Autofac;
 using Autofac.Extras.DynamicProxy;
 using BCVPDotNet8.Repository;
+using BCVPDotNet8.Repository.UnitOfWorks;
 using BCVPDotNet8.Service.Base;
 using System.Reflection;
 
@@ -42,6 +43,13 @@ namespace BCVPDotNet8.Extensions.ServiceExtensions
                 .AsImplementedInterfaces()
                 .InstancePerDependency()
                 .PropertiesAutowired();
+
+            // 事务AOP瞬态注册服务
+            builder.RegisterType<UnitOfWorkManage>().As<IUnitOfWorkManage>()
+                .AsImplementedInterfaces()
+                .InstancePerLifetimeScope()
+                .PropertiesAutowired()
+                ;
         }
     }
 }

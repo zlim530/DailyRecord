@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using BCVPDotNet8.Repository;
+using SqlSugar;
 
 namespace BCVPDotNet8.Service.Base
 {
@@ -7,6 +8,7 @@ namespace BCVPDotNet8.Service.Base
     {
         private readonly IMapper _mapper;
         private readonly IBaseRepository<TEntity> _baseRepository;
+        public ISqlSugarClient Db => _baseRepository.DB;
 
         public BaseService(IMapper mapper, IBaseRepository<TEntity> baseRepository)
         { 

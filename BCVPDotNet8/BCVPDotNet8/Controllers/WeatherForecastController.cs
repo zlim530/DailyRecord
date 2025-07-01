@@ -1,4 +1,4 @@
-using BCVPDotNet8.Common;
+ï»¿using BCVPDotNet8.Common;
 using BCVPDotNet8.Common.Caches;
 using BCVPDotNet8.Common.Core;
 using BCVPDotNet8.Common.Option;
@@ -21,16 +21,16 @@ namespace BCVPDotNet8.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
-        private readonly IBaseService<User, UserVo> _userService;
+        private readonly IBaseService<SysUserInfo, UserVo> _userService;
         private readonly IBaseService<Role, RoleVo> _roleService;
         private readonly IOptions<RedisOptions> _redisOptions;
         private readonly ICaching _caching;
 
-        // ÊôĞÔ×¢Èë±ØĞëÊ¹ÓÃ public ĞŞÊÎÊôĞÔ
-        public IBaseService<User, UserVo> _baseUserService { get; set; }
+        // å±æ€§æ³¨å…¥å¿…é¡»ä½¿ç”¨ public ä¿®é¥°å±æ€§
+        public IBaseService<SysUserInfo, UserVo> _baseUserService { get; set; }
 
         public WeatherForecastController(ILogger<WeatherForecastController> logger,
-                                        IBaseService<User, UserVo> userService,
+                                        IBaseService<SysUserInfo, UserVo> userService,
                                         IBaseService<Role, RoleVo> roleService,
                                         IOptions<RedisOptions> redisOptions,
                                         ICaching caching
@@ -58,7 +58,8 @@ namespace BCVPDotNet8.Controllers
         [HttpGet(Name = "GetUser")]
         public async Task<List<UserVo>> GetUser()
         {
-            var userService = new UserService();
+            //var userService = new UserService();
+            var userService = _userService;
             var userList = await userService.Query();
             return userList;
         }
@@ -69,10 +70,10 @@ namespace BCVPDotNet8.Controllers
             //var baseService = new BaseService<User, UserVo>(_mapper);
             //return await baseService.Query();
             
-            //var userList = await _userService.Query();    // ×Ö¶Î-¹¹Ôìº¯ÊıÒÀÀµ×¢Èë
-            var userList = await _baseUserService.Query();// ÊôĞÔÒÀÀµ×¢Èë
+            //var userList = await _userService.Query();    // å­—æ®µ-æ„é€ å‡½æ•°ä¾èµ–æ³¨å…¥
+            var userList = await _baseUserService.Query();// å±æ€§ä¾èµ–æ³¨å…¥
 
-            // Ê¹ÓÃÕâÖÖ·½·¨ÎŞ·¨±ÜÃâÓ²±àÂë
+            // ä½¿ç”¨è¿™ç§æ–¹æ³•æ— æ³•é¿å…ç¡¬ç¼–ç 
             var redisEnable = AppSettings.app(new string[] { "Redis", "Enable"});
             var redisConnectionString = AppSettings.GetValue("Redis:ConnectionString");
             Console.WriteLine($"Enable:{redisEnable}, ConnectionString:{redisConnectionString}");
@@ -82,28 +83,28 @@ namespace BCVPDotNet8.Controllers
 
             var cacheKey = "lim";
             List<string> cacheKeys = await _caching.GetAllCacheKeysAsync();
-            await Console.Out.WriteLineAsync("È«²¿keys -->" + JsonConvert.SerializeObject(cacheKeys));
-            await Console.Out.WriteLineAsync("Ìí¼ÓÒ»¸ö»º´æ");
+            await Console.Out.WriteLineAsync("å…¨éƒ¨keys -->" + JsonConvert.SerializeObject(cacheKeys));
+            await Console.Out.WriteLineAsync("æ·»åŠ ä¸€ä¸ªç¼“å­˜");
             await _caching.SetStringAsync(cacheKey, "lim");
-            await Console.Out.WriteLineAsync("È«²¿keys -->" + JsonConvert.SerializeObject(await _caching.GetAllCacheKeysAsync()));
-            await Console.Out.WriteLineAsync("µ±Ç°keyÄÚÈİ-->" + JsonConvert.SerializeObject(await _caching.GetStringAsync(cacheKey)));
+            await Console.Out.WriteLineAsync("å…¨éƒ¨keys -->" + JsonConvert.SerializeObject(await _caching.GetAllCacheKeysAsync()));
+            await Console.Out.WriteLineAsync("å½“å‰keyå†…å®¹-->" + JsonConvert.SerializeObject(await _caching.GetStringAsync(cacheKey)));
 
-            await Console.Out.WriteLineAsync("É¾³ıkey");
+            await Console.Out.WriteLineAsync("åˆ é™¤key");
             await _caching.RemoveAsync(cacheKey);
-            await Console.Out.WriteLineAsync("È«²¿keys -->" + JsonConvert.SerializeObject(await _caching.GetAllCacheKeysAsync()));
+            await Console.Out.WriteLineAsync("å…¨éƒ¨keys -->" + JsonConvert.SerializeObject(await _caching.GetAllCacheKeysAsync()));
 
             return userList;
         }
 
 
         /// <summary>
-        /// Í¨¹ı App Àà»ñÈ¡ UserService£ºÕâÖÖ·½Ê½ÊÊÓÃÓÚÎŞ·¨Í¨¹ı¹¹Ôìº¯Êı»òÕßÊôĞÔÒÀÀµ×¢ÈëµÄÀà£¬ÕâÖÖ·½Ê½¿ÉÒÔÄÃµ½Ó¦ÓÃ³ÌĞòµÄËùÓĞ×ÊÔ´£¬ÄÃµ½ËùÓĞ·şÎñ
+        /// é€šè¿‡ App ç±»è·å– UserServiceï¼šè¿™ç§æ–¹å¼é€‚ç”¨äºæ— æ³•é€šè¿‡æ„é€ å‡½æ•°æˆ–è€…å±æ€§ä¾èµ–æ³¨å…¥çš„ç±»ï¼Œè¿™ç§æ–¹å¼å¯ä»¥æ‹¿åˆ°åº”ç”¨ç¨‹åºçš„æ‰€æœ‰èµ„æºï¼Œæ‹¿åˆ°æ‰€æœ‰æœåŠ¡
         /// </summary>
         /// <returns></returns>
         [HttpGet(Name = "GetAppUser")]
         public async Task<List<UserVo>> GetAppUser()
         {
-            var userServiceObjNew = App.GetService<IBaseService<User, UserVo>>(false);
+            var userServiceObjNew = App.GetService<IBaseService<SysUserInfo, UserVo>>(false);
             var userList = await userServiceObjNew.Query();
             var redisOptions = App.GetOptions<RedisOptions>();
             Console.WriteLine(JsonConvert.SerializeObject(redisOptions));

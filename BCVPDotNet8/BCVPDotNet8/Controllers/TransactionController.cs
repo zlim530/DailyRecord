@@ -1,6 +1,7 @@
 ﻿using BCVPDotNet8.Common;
 using BCVPDotNet8.Model;
 using BCVPDotNet8.Repository.UnitOfWorks;
+using BCVPDotNet8.Service;
 using BCVPDotNet8.Service.Base;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,12 +12,15 @@ namespace BCVPDotNet8.Controllers
     public class TransactionController : ControllerBase
     {
         private readonly IBaseService<Role, RoleVo> _roleService;
+        private readonly IUserService _userService;
         private readonly IUnitOfWorkManage _unitOfWorkManage;
 
         public TransactionController(IBaseService<Role, RoleVo> roleService,
+                                    IUserService userService,
                                     IUnitOfWorkManage unitOfWorkManage)
         {
             _roleService = roleService;
+            _userService = userService;
             _unitOfWorkManage = unitOfWorkManage;
         }
 
@@ -33,9 +37,9 @@ namespace BCVPDotNet8.Controllers
                 Console.WriteLine($"1 first time: the count of role is: {roles.Count}");
 
                 Console.WriteLine($"insert a data into the table role now.");
-                TimeSpan timeSpan = DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1, 0, 0,0, DateTimeKind.Utc);
-                var insertPassword = await _roleService.Add(new Role() 
-                { 
+                TimeSpan timeSpan = DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+                var insertPassword = await _roleService.Add(new Role()
+                {
                     Id = timeSpan.TotalSeconds.ObjToLong(),
                     IsDeleted = false,
                     Name = "role name",
@@ -59,5 +63,13 @@ namespace BCVPDotNet8.Controllers
 
             return await Task.FromResult("OK");
         }
+
+
+        [HttpGet]
+        public async Task<bool> TestTranPropagation()
+        { 
+            return await _userService.TestTranPropagation();
+        }
+
     }
 }

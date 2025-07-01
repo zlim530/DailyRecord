@@ -10,9 +10,9 @@ namespace BCVPDotNet8.Extensions.ServiceExtensions
         /// </summary>
         public CustomerProfile()
         {
-            CreateMap<User, UserVo>()
+            CreateMap<SysUserInfo, UserVo>()
                 .ForMember(a => a.UserName, o => o.MapFrom(d => d.Name));
-            CreateMap<UserVo, User>()
+            CreateMap<UserVo, SysUserInfo>()
                 .ForMember(a => a.Name, o => o.MapFrom(d => d.UserName));
 
             CreateMap<Role, RoleVo>()

@@ -4,6 +4,6 @@ namespace BCVPDotNet8.Repository
 {
     internal interface IUserRepository
     {
-        Task<List<User>> Query();
+        Task<List<SysUserInfo>> Query();
     }
 }

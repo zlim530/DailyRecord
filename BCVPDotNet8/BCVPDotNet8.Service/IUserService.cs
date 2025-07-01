@@ -5,5 +5,6 @@ namespace BCVPDotNet8.Service
     public interface IUserService
     {
         Task<List<UserVo>> Query();
+        Task<bool> TestTranPropagation();
     }
 }
