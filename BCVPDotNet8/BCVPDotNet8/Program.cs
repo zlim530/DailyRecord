@@ -1,4 +1,4 @@
-
+ï»¿
 using Autofac;
 using Autofac.Extensions.DependencyInjection;
 using BCVPDotNet8.Common;
@@ -30,22 +30,22 @@ namespace BCVPDotNet8
 
             #region IOC
 
-            // ÊôĞÔ×¢Èë¼¤»î¿ØÖÆÆ÷
-            // ASP.NET CoreÄ¬ÈÏ²»Ê¹ÓÃDI»ñÈ¡Controller£¬ÊÇÒòÎªDIÈİÆ÷¹¹½¨Íê³Éºó¾Í²»ÄÜ±ä¸üÁË£¬µ«ÊÇControllerÊÇ¿ÉÄÜÓĞ¶¯Ì¬¼ÓÔØµÄĞèÇóµÄ¡£
-            // ĞèÒªÊ¹ÓÃIControllerActivator¿ªÆôControllerµÄÊôĞÔ×¢Èë£¬Ä¬ÈÏ²»¿ªÆô¡£
+            // å±æ€§æ³¨å…¥æ¿€æ´»æ§åˆ¶å™¨
+            // ASP.NET Coreé»˜è®¤ä¸ä½¿ç”¨DIè·å–Controllerï¼Œæ˜¯å› ä¸ºDIå®¹å™¨æ„å»ºå®Œæˆåå°±ä¸èƒ½å˜æ›´äº†ï¼Œä½†æ˜¯Controlleræ˜¯å¯èƒ½æœ‰åŠ¨æ€åŠ è½½çš„éœ€æ±‚çš„ã€‚
+            // éœ€è¦ä½¿ç”¨IControllerActivatorå¼€å¯Controllerçš„å±æ€§æ³¨å…¥ï¼Œé»˜è®¤ä¸å¼€å¯ã€‚
             builder.Services.AddControllers()
-                    .AddControllersAsServices() // Ò²¼´ controller µÄ´´½¨·½Ê½´ÓÈİÆ÷ÖĞ´´½¨£¬¶ø¿ØÖÆÆ÷ÖĞµÄ¹¹Ôìº¯ÊıÒÀÀµµÄ·şÎñ»òÕßÊôĞÔÒ²ÊÇ´Ó¿ØÖÆ·´×ªµÄÈİÆ÷ÖĞ´´½¨µÄ
+                    .AddControllersAsServices() // ä¹Ÿå³ controller çš„åˆ›å»ºæ–¹å¼ä»å®¹å™¨ä¸­åˆ›å»ºï¼Œè€Œæ§åˆ¶å™¨ä¸­çš„æ„é€ å‡½æ•°ä¾èµ–çš„æœåŠ¡æˆ–è€…å±æ€§ä¹Ÿæ˜¯ä»æ§åˆ¶åè½¬çš„å®¹å™¨ä¸­åˆ›å»ºçš„
                     ;
-            // ºËĞÄÔ­ÀíÆäÊµ¾ÍÊÇ°Ñ¿ØÖÆÆ÷ controller µ±×öÒ»¸ö·şÎñ
-            // IControllerActivatorµÄÄ¬ÈÏÊµÏÖ²»ÊÇServiceBasedControllerActivator£¬¶øÊÇDefaultControllerActivator¡£
-            // ¿ØÖÆÆ÷±¾Éí²»ÊÇÓÉÒÀÀµ×¢ÈëÈİÆ÷Éú³ÉµÄ£¬Ö»²»¹ıÊÇ¹¹Ôìº¯ÊıÀïµÄÒÀÀµÊÇ´ÓÈİÆ÷ÀïÄÃ³öÀ´µÄ£¬¿ØÖÆÆ÷²»ÊÇÈİÆ÷Éú³ÉµÄ£¬ËùÒÔËûµÄÊôĞÔÒ²²»ÊÇÈİÆ÷Éú³ÉµÄ¡£
-            // ÎªÁË¸Ä±äÄ¬ÈÏÊµÏÖDefaultControllerActivator£¬ËùÒÔÊ¹ÓÃServiceBasedControllerActivator¡£
-            // IControllerActivatorÔ´ÂëµØÖ·£ºhttps://github.com/dotnet/aspnetcore/blob/main/src/Mvc/Mvc.Core/src/Controllers/IControllerActivator.cs
-            // ²é¿´DefaultControllerActivator ºÍServiceBasedControllerActivatorÔ´Âë·¢ÏÖ£º
-            // DefaultControllerActivatorÊÇÓÉITypeActivatorCache.CreateInstance´´½¨¶ÔÏó¡£
-            // ServiceBasedControllerActivatorÊÇÓÉactionContext.HttpContext.RequestServices´´½¨¶ÔÏó¡£
-            // Í¨¹ı¸Ä±äControllersµÄ´´½¨·½Ê½À´ÊµÏÖÊôĞÔ×¢Èë£¬½«ControllerµÄ´´½¨¶¼ÓÉÈİÆ÷ÈİÆ÷´´½¨¡£
-            // ControllerÓÉÈİÆ÷´´½¨Íê³É£¬ËùÒÔËûµÄÊôĞÔÒ²ÊÇÈİÆ÷´´½¨µÄ£¬´Ó¶øÊµÏÖÊôĞÔÒÀÀµ×¢Èë£ºÊôĞÔĞŞÊÎ´Ê±ØĞëÊÇpublic
+            // æ ¸å¿ƒåŸç†å…¶å®å°±æ˜¯æŠŠæ§åˆ¶å™¨ controller å½“åšä¸€ä¸ªæœåŠ¡
+            // IControllerActivatorçš„é»˜è®¤å®ç°ä¸æ˜¯ServiceBasedControllerActivatorï¼Œè€Œæ˜¯DefaultControllerActivatorã€‚
+            // æ§åˆ¶å™¨æœ¬èº«ä¸æ˜¯ç”±ä¾èµ–æ³¨å…¥å®¹å™¨ç”Ÿæˆçš„ï¼Œåªä¸è¿‡æ˜¯æ„é€ å‡½æ•°é‡Œçš„ä¾èµ–æ˜¯ä»å®¹å™¨é‡Œæ‹¿å‡ºæ¥çš„ï¼Œæ§åˆ¶å™¨ä¸æ˜¯å®¹å™¨ç”Ÿæˆçš„ï¼Œæ‰€ä»¥ä»–çš„å±æ€§ä¹Ÿä¸æ˜¯å®¹å™¨ç”Ÿæˆçš„ã€‚
+            // ä¸ºäº†æ”¹å˜é»˜è®¤å®ç°DefaultControllerActivatorï¼Œæ‰€ä»¥ä½¿ç”¨ServiceBasedControllerActivatorã€‚
+            // IControllerActivatoræºç åœ°å€ï¼šhttps://github.com/dotnet/aspnetcore/blob/main/src/Mvc/Mvc.Core/src/Controllers/IControllerActivator.cs
+            // æŸ¥çœ‹DefaultControllerActivator å’ŒServiceBasedControllerActivatoræºç å‘ç°ï¼š
+            // DefaultControllerActivatoræ˜¯ç”±ITypeActivatorCache.CreateInstanceåˆ›å»ºå¯¹è±¡ã€‚
+            // ServiceBasedControllerActivatoræ˜¯ç”±actionContext.HttpContext.RequestServicesåˆ›å»ºå¯¹è±¡ã€‚
+            // é€šè¿‡æ”¹å˜Controllersçš„åˆ›å»ºæ–¹å¼æ¥å®ç°å±æ€§æ³¨å…¥ï¼Œå°†Controllerçš„åˆ›å»ºéƒ½ç”±å®¹å™¨å®¹å™¨åˆ›å»ºã€‚
+            // Controllerç”±å®¹å™¨åˆ›å»ºå®Œæˆï¼Œæ‰€ä»¥ä»–çš„å±æ€§ä¹Ÿæ˜¯å®¹å™¨åˆ›å»ºçš„ï¼Œä»è€Œå®ç°å±æ€§ä¾èµ–æ³¨å…¥ï¼šå±æ€§ä¿®é¥°è¯å¿…é¡»æ˜¯public
 
             //builder.Services.Replace(ServiceDescriptor.Transient<IControllerActivator, ServiceBasedControllerActivator>());
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -59,20 +59,20 @@ namespace BCVPDotNet8
             //builder.Services.AddScoped(typeof(IBaseService<,>), typeof(BaseService<,>));
             #endregion
 
-            #region ÅäÖÃ
+            #region é…ç½®
 
-            // ÅäÖÃ£º¶şÑ¡Ò»¼´¿É
-            // ÅäÖÃ AppSettings Àà·şÎñ×¢Èë
+            // é…ç½®ï¼šäºŒé€‰ä¸€å³å¯
+            // é…ç½® AppSettings ç±»æœåŠ¡æ³¨å…¥
             builder.Services.AddSingleton(new AppSettings(builder.Configuration));
-            // ÅäÖÃ Option Àà
+            // é…ç½® Option ç±»
             builder.Services.AddAllOptionRegister();
             builder.ConfigureApplication();
             #endregion
 
-            // ORM(Object-Relational Mapping)£º¶ÔÏó¹ØÏµÓ³Éä£ºËü°Ñ Êı¾İ¿âÖĞµÄ±í Ó³ÉäÎª ±à³ÌÓïÑÔÖĞµÄÀà£¬°Ñ±íÖĞµÄ¼ÇÂ¼Ó³ÉäÎªÀàµÄ¶ÔÏó£¬ÈÃÄã¿ÉÒÔÓÃÃæÏò¶ÔÏóµÄ·½Ê½²Ù×÷Êı¾İ¿â
+            // ORM(Object-Relational Mapping)ï¼šå¯¹è±¡å…³ç³»æ˜ å°„ï¼šå®ƒæŠŠ æ•°æ®åº“ä¸­çš„è¡¨ æ˜ å°„ä¸º ç¼–ç¨‹è¯­è¨€ä¸­çš„ç±»ï¼ŒæŠŠè¡¨ä¸­çš„è®°å½•æ˜ å°„ä¸ºç±»çš„å¯¹è±¡ï¼Œè®©ä½ å¯ä»¥ç”¨é¢å‘å¯¹è±¡çš„æ–¹å¼æ“ä½œæ•°æ®åº“
             builder.Services.AddSqlsugarSetup();
 
-            // »º´æ
+            // ç¼“å­˜
             builder.Services.AddCacheSetup();
 
             var app = builder.Build();

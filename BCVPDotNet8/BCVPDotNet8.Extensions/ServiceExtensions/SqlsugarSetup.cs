@@ -60,7 +60,7 @@ namespace BCVPDotNet8.Extensions.ServiceExtensions
             // 参考：https://www.donet5.com/Home/Doc?typeId=1181
             services.AddSingleton<ISqlSugarClient>(o => 
             {
-                return new SqlSugarClient(BaseDBConfig.AllConfigs);
+                return new SqlSugarScope(BaseDBConfig.AllConfigs);
             });
 
         }
