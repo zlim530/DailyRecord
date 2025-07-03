@@ -13,14 +13,17 @@ namespace BCVPDotNet8.Controllers
     {
         private readonly IBaseService<Role, RoleVo> _roleService;
         private readonly IUserService _userService;
+        private readonly IBaseService<AuditSqlLog, AuditSqlLogVo> _auditSqlLogService;
         private readonly IUnitOfWorkManage _unitOfWorkManage;
 
         public TransactionController(IBaseService<Role, RoleVo> roleService,
                                     IUserService userService,
+                                    IBaseService<AuditSqlLog, AuditSqlLogVo> auditSqlLogService,
                                     IUnitOfWorkManage unitOfWorkManage)
         {
             _roleService = roleService;
             _userService = userService;
+            _auditSqlLogService = auditSqlLogService;
             _unitOfWorkManage = unitOfWorkManage;
         }
 
@@ -67,9 +70,15 @@ namespace BCVPDotNet8.Controllers
 
         [HttpGet]
         public async Task<bool> TestTranPropagation()
-        { 
+        {
             return await _userService.TestTranPropagation();
         }
 
+
+        [HttpGet]
+        public async Task<List<AuditSqlLogVo>> GetAuditSqlLogList()
+        {
+            return await _auditSqlLogService.Query();
+        }
     }
 }

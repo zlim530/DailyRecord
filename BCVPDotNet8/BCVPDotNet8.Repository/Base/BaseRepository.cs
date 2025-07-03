@@ -1,16 +1,41 @@
-﻿using SqlSugar;
+﻿using BCVPDotNet8.Repository.UnitOfWorks;
+using SqlSugar;
+using System.Reflection;
 
 namespace BCVPDotNet8.Repository
 {
     public class BaseRepository<TEntity> : IBaseRepository<TEntity> where TEntity : class, new()
     {
-        private readonly ISqlSugarClient _dbBase;
-        public BaseRepository(ISqlSugarClient sqlSugarClient)
+        public IUnitOfWorkManage _unitOfWorkManage { get; }
+        private readonly SqlSugarScope _dbBase;
+        public ISqlSugarClient Db => _db;
+        private ISqlSugarClient _db
         {
-            _dbBase = sqlSugarClient;
+            get
+            { 
+                ISqlSugarClient db = _dbBase;
+
+                //修改使用 model备注字段作为切换数据库条件，使用sqlsugar TenantAttribute存放数据库ConnId
+                //参考 https://www.donet5.com/Home/Doc?typeId=2246
+                var tenantAttr = typeof(TEntity).GetCustomAttribute<TenantAttribute>();
+                if (tenantAttr != null)
+                {
+                    //统一处理 configId 小写
+                    db = _dbBase.GetConnectionScope(tenantAttr.configId.ToString().ToLower());
+                }
+
+                return db;
+            }
+        }
+
+        public BaseRepository(IUnitOfWorkManage unitOfWorkManage)
+        {
+            _unitOfWorkManage = unitOfWorkManage;
+            _dbBase = unitOfWorkManage.GetDbClient();
         }
 
         public ISqlSugarClient DB => _dbBase;
+
 
         /// <summary>
         /// 写入实体数据
@@ -20,7 +45,7 @@ namespace BCVPDotNet8.Repository
         /// <exception cref="NotImplementedException"></exception>
         public async Task<long> Add(TEntity entity)
         {
-            var insert = _dbBase.Insertable(entity);
+            var insert = _db.Insertable(entity);
             return await insert.ExecuteReturnSnowflakeIdAsync();
         }
 
@@ -30,7 +55,7 @@ namespace BCVPDotNet8.Repository
             //var data = "[{\"Id\": 530,\"Name\":\"basezlim530\"}]";
             //return JsonConvert.DeserializeObject<List<TEntity>>(data) ?? new List<TEntity>();
             Console.WriteLine($"In BaseRepository: DB.GetHashCode().ToString(): {DB.GetHashCode().ToString()}");
-            return await _dbBase.Queryable<TEntity>().ToListAsync();
+            return await _db.Queryable<TEntity>().ToListAsync();
         }
     }
 }

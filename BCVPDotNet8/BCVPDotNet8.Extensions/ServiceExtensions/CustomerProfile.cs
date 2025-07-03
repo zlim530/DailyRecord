@@ -20,6 +20,8 @@ namespace BCVPDotNet8.Extensions.ServiceExtensions
             CreateMap<RoleVo, Role>()
                 .ForMember(a => a.Name, o => o.MapFrom(d => d.RoleName));
 
+            CreateMap<AuditSqlLog, AuditSqlLogVo>();
+            CreateMap<AuditSqlLogVo, AuditSqlLog>();
         }
     }
 }
