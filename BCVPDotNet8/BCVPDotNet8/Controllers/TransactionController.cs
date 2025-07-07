@@ -75,10 +75,25 @@ namespace BCVPDotNet8.Controllers
         }
 
 
+        //[HttpGet]
+        //public async Task<List<AuditSqlLogVo>> GetAuditSqlLogList()
+        //{
+        //    return await _auditSqlLogService.Query();
+        //}
+
+
         [HttpGet]
-        public async Task<List<AuditSqlLogVo>> GetAuditSqlLogList()
+        public async Task<List<AuditSqlLog>> GetAuditSqlLogListByDateTime()
         {
-            return await _auditSqlLogService.Query();
+            //TimeSpan timeSpan = DateTime.Now.ToUniversalTime() - new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+            //var id = timeSpan.TotalSeconds.ObjToLong();
+            //await _auditSqlLogService.AddSplit(new AuditSqlLog()
+            //{
+            //    Id = id,
+            //    //DateTime = DateTime.Now// 如果当前数据库中不存在当前月份的表则会新建一张表
+            //    DateTime = Convert.ToDateTime("2023-12-23")
+            //});
+            return await _auditSqlLogService.QuerySplit(d => /*true*/d.DateTime <= Convert.ToDateTime("2023-12-24"));// 查询时不同表的数据都可以查到
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using BCVPDotNet8.Repository;
 using SqlSugar;
+using System.Linq.Expressions;
 
 namespace BCVPDotNet8.Service.Base
 {
@@ -28,5 +29,17 @@ namespace BCVPDotNet8.Service.Base
             var llout = _mapper.Map<List<TVo>>(entities);
             return llout;
         }
+
+
+        public async Task<List<TEntity>> QuerySplit(Expression<Func<TEntity, bool>> whereExpression, string orderByFields = null)
+        { 
+            return await _baseRepository.QuerySplit(whereExpression, orderByFields);
+        }
+
+        public async Task<List<long>> AddSplit(TEntity entity)
+        {
+            return await _baseRepository.AddSplit(entity);
+        }
+
     }
 }

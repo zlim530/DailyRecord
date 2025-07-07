@@ -1,5 +1,6 @@
 ﻿using BCVPDotNet8.Repository.UnitOfWorks;
 using SqlSugar;
+using System.Linq.Expressions;
 using System.Reflection;
 
 namespace BCVPDotNet8.Repository
@@ -56,6 +57,35 @@ namespace BCVPDotNet8.Repository
             //return JsonConvert.DeserializeObject<List<TEntity>>(data) ?? new List<TEntity>();
             Console.WriteLine($"In BaseRepository: DB.GetHashCode().ToString(): {DB.GetHashCode().ToString()}");
             return await _db.Queryable<TEntity>().ToListAsync();
+        }
+
+
+        /// <summary>
+        /// 分表查询
+        /// </summary>
+        /// <param name="whereExpression">条件表达式</param>
+        /// <param name="orderByFields">排序字段，如name asc,age desc等</param>
+        /// <returns></returns>
+        public async Task<List<TEntity>> QuerySplit(Expression<Func<TEntity, bool>> whereExpression, string orderByFields = null)
+        {
+            return await _db.Queryable<TEntity>()
+                            .SplitTable()// 标识启用了分表
+                            .OrderByIF(!string.IsNullOrEmpty(orderByFields), orderByFields)
+                            .WhereIF(whereExpression != null
+                            , whereExpression)
+                            .ToListAsync();
+        }
+
+        /// <summary>
+        /// 写入实体数据
+        /// </summary>
+        /// <param name="entity">数据实体</param>
+        /// <returns></returns>
+        public async Task<List<long>> AddSplit(TEntity entity)
+        {
+            var insert = _db.Insertable(entity).SplitTable();
+            // 插入并返回雪花ID并且自动赋值ID　
+            return await insert.ExecuteReturnSnowflakeIdListAsync();
         }
     }
 }
