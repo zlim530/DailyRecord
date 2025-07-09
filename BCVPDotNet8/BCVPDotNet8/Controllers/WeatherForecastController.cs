@@ -5,6 +5,7 @@ using BCVPDotNet8.Common.Option;
 using BCVPDotNet8.Model;
 using BCVPDotNet8.Service;
 using BCVPDotNet8.Service.Base;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
@@ -13,6 +14,7 @@ namespace BCVPDotNet8.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
+    [Authorize]// 授权认证[Authorize]入门
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]

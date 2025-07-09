@@ -5,8 +5,11 @@ using BCVPDotNet8.Common;
 using BCVPDotNet8.Common.Core;
 using BCVPDotNet8.Extensions;
 using BCVPDotNet8.Extensions.ServiceExtensions;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 namespace BCVPDotNet8
 {
@@ -74,6 +77,22 @@ namespace BCVPDotNet8
 
             // 缓存
             builder.Services.AddCacheSetup();
+
+            builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options => 
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidateAudience = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+
+                        ValidIssuer = "Zlim.Core",
+                        ValidAudience = "zlim",
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("sdfsdfsrty45634kkhllghtdgdfss345t678fs"))
+                    };
+                });
 
             var app = builder.Build();
 
