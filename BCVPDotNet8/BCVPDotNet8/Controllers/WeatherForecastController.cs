@@ -14,7 +14,10 @@ namespace BCVPDotNet8.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
-    [Authorize]// 授权认证[Authorize]入门
+    //[Authorize]// 授权认证[Authorize]入门
+    // 多个 Authorize 同时开启标识需要同时满足才可以访问接口；如果想实现 SuperAdmin or Claim 的效果可以在 Program 中的 AddPolicy("SystemOrAdmin") 设置
+    [Authorize(Roles = "SuperAdmin")]// 基于角色的授权认证，token 中的角色信息必须是 SuperAdmin 才可以访问接口
+    [Authorize(Policy = "Claim")]// 基于政策"Claim"授权，具体要求见 Program 中的 AddPolicy
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
@@ -27,6 +30,7 @@ namespace BCVPDotNet8.Controllers
         private readonly IBaseService<Role, RoleVo> _roleService;
         private readonly IOptions<RedisOptions> _redisOptions;
         private readonly ICaching _caching;
+        private readonly IHttpContextAccessor _httpContextAccessor;
 
         // 属性注入必须使用 public 修饰属性
         public IBaseService<SysUserInfo, UserVo> _baseUserService { get; set; }
@@ -35,7 +39,8 @@ namespace BCVPDotNet8.Controllers
                                         IBaseService<SysUserInfo, UserVo> userService,
                                         IBaseService<Role, RoleVo> roleService,
                                         IOptions<RedisOptions> redisOptions,
-                                        ICaching caching
+                                        ICaching caching,
+                                        IHttpContextAccessor httpContextAccessor
                                         )
         {
             _logger = logger;
@@ -43,11 +48,27 @@ namespace BCVPDotNet8.Controllers
             _roleService = roleService;
             _redisOptions = redisOptions;
             _caching = caching;
+            _httpContextAccessor = httpContextAccessor;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
+            // 获取 token 中的 Claims
+            var httpContext = _httpContextAccessor.HttpContext?.User.Claims.ToList();
+            foreach (var item in httpContext)
+            {
+                //Console.WriteLine($"{item.Type} : {item.Value}");
+                /*
+                http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier : user123
+                jti : 4de1b201-5903-49b0-a92a-2231e229709a
+                http://schemas.microsoft.com/ws/2008/06/identity/claims/role : SuperAdmin
+                exp : 1752046461
+                iss : Zlim.Core
+                aud : zlim
+                */
+            }
+
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),

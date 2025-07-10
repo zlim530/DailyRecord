@@ -94,6 +94,15 @@ namespace BCVPDotNet8
                     };
                 });
 
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Claim", policy => policy.RequireClaim("iss","Zlim.Core").Build());
+                options.AddPolicy("User", policy => policy.RequireRole("User").Build());
+                options.AddPolicy("SuperAdmin", policy => policy.RequireRole("SuperAdmin").Build());
+                options.AddPolicy("SystemOrAdmin", policy => policy.RequireRole("SuperAdmin", "System"));
+            });
+            builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             var app = builder.Build();
 
             app.ConfigureApplication();
