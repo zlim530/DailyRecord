@@ -6,6 +6,7 @@ using BCVPDotNet8.Common.Core;
 using BCVPDotNet8.Extensions;
 using BCVPDotNet8.Extensions.ServiceExtensions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.IdentityModel.Tokens;
@@ -100,7 +101,10 @@ namespace BCVPDotNet8
                 options.AddPolicy("User", policy => policy.RequireRole("User").Build());
                 options.AddPolicy("SuperAdmin", policy => policy.RequireRole("SuperAdmin").Build());
                 options.AddPolicy("SystemOrAdmin", policy => policy.RequireRole("SuperAdmin", "System"));
+
+                options.AddPolicy("Permission",policy => policy.Requirements.Add(new PermissionRequirement()));
             });
+            builder.Services.AddScoped<IAuthorizationHandler, PermissionRequirement>();// 注册服务
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             var app = builder.Build();

@@ -16,8 +16,9 @@ namespace BCVPDotNet8.Controllers
     [Route("[controller]/[action]")]
     //[Authorize]// 授权认证[Authorize]入门
     // 多个 Authorize 同时开启标识需要同时满足才可以访问接口；如果想实现 SuperAdmin or Claim 的效果可以在 Program 中的 AddPolicy("SystemOrAdmin") 设置
-    [Authorize(Roles = "SuperAdmin")]// 基于角色的授权认证，token 中的角色信息必须是 SuperAdmin 才可以访问接口
-    [Authorize(Policy = "Claim")]// 基于政策"Claim"授权，具体要求见 Program 中的 AddPolicy
+    //[Authorize(Roles = "SuperAdmin")]// 基于角色的授权认证，token 中的角色信息必须是 SuperAdmin 才可以访问接口
+    //[Authorize(Policy = "Claim")]// 基于政策"Claim"授权，具体要求见 Program 中的 AddPolicy
+    [Authorize("Permission")]// 可以省略 Policy = 因为 Authorize 特性类中有 public AuthorizeAttribute(string policy); 构造函数
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]
