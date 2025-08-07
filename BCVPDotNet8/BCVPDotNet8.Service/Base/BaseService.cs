@@ -22,9 +22,9 @@ namespace BCVPDotNet8.Service.Base
             return await _baseRepository.Add(entity);
         }
 
-        public async Task<List<TVo>> Query()
+        public async Task<List<TVo>> Query(Expression<Func<TEntity, bool>>? whereExpression = null)
         {
-            var entities = await _baseRepository.Query();
+            var entities = await _baseRepository.Query(whereExpression);
             Console.WriteLine($"In BaseService: _baseRepository 实例 HashCode : {_baseRepository.GetHashCode().ToString()}");
             var llout = _mapper.Map<List<TVo>>(entities);
             return llout;

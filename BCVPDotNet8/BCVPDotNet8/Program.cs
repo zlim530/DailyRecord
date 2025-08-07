@@ -79,6 +79,7 @@ namespace BCVPDotNet8
             // 缓存
             builder.Services.AddCacheSetup();
 
+            // JWT 解析的过程，生成的过程见 JwtToken 类的 BuildJwtToken 方法，两者中的 Issuer\audience 值要保持一致
             builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options => 
                 {
@@ -104,7 +105,9 @@ namespace BCVPDotNet8
 
                 options.AddPolicy("Permission",policy => policy.Requirements.Add(new PermissionRequirement()));
             });
-            builder.Services.AddScoped<IAuthorizationHandler, PermissionRequirement>();// 注册服务
+            builder.Services.AddScoped<IAuthorizationHandler, PermissionRequirementHandler>();// 注册服务
+            builder.Services.AddSingleton(new PermissionRequirement());
+
             builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             var app = builder.Build();

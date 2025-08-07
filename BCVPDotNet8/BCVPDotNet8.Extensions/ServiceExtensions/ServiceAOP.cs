@@ -85,7 +85,7 @@ namespace BCVPDotNet8.Extensions.ServiceExtensions
                     apiLogAopInfo.ResponseTime = endTime.ToString("yyyy-MM-dd hh:mm:ss fff");
                     apiLogAopInfo.ResponseIntervalTime = responseTime;
                     apiLogAopInfo.ResponseJsonData = jsonResult;
-                    Console.WriteLine(JsonConvert.SerializeObject(apiLogAopInfo));
+                    //Console.WriteLine(JsonConvert.SerializeObject(apiLogAopInfo));
                 }
             
             }

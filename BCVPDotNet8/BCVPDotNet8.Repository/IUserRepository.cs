@@ -2,8 +2,9 @@
 
 namespace BCVPDotNet8.Repository
 {
-    internal interface IUserRepository
+    public interface IUserRepository
     {
         Task<List<SysUserInfo>> Query();
+        Task<List<RoleModulePermission>> RoleModuleMaps();
     }
 }

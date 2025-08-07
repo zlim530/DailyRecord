@@ -9,7 +9,7 @@ namespace BCVPDotNet8.Service.Base
 
         Task<long> Add(TEntity entity);
         Task<List<long>> AddSplit(TEntity entity);
-        Task<List<TVo>> Query();
+        Task<List<TVo>> Query(Expression<Func<TEntity, bool>>? whereExpression = null);
         Task<List<TEntity>> QuerySplit(Expression<Func<TEntity, bool>> whereExpression, string orderByFields = null);
     }
 }

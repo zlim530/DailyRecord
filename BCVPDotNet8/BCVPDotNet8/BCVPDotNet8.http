@@ -1,6 +1,19 @@
 ﻿@BCVPDotNet8_HostAddress = http://localhost:5283
+@BCVPDotNet8_Token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiYmxvZ2FkbWluIiwianRpIjoiMTIiLCJUZW5hbnRJZCI6IjAiLCJpYXQiOiIxNzU0NTAzNDQ4IiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9leHBpcmF0aW9uIjoiMjAyNS84LzYgMTk6MDQ6MDciLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiJTdXBlckFkbWluIiwibmJmIjoxNzU0NDc0NjQ3LCJleHAiOjE3NTQ0NzgyNDcsImlzcyI6IlpsaW0uQ29yZSIsImF1ZCI6InpsaW0ifQ.AO-6Ba6XJyXWZ1VLDfqE9gZXRToRy4XAB2Ewfy5wna4
 
 GET {{BCVPDotNet8_HostAddress}}/weatherforecast/Get
 Accept: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyMTIzIiwianRpIjoiNGRlMWIyMDEtNTkwMy00OWIwLWE5MmEtMjIzMWUyMjk3MDlhIiwiaHR0cDovL3NjaGVtYXMubWljcm9zb2Z0LmNvbS93cy8yMDA4LzA2L2lkZW50aXR5L2NsYWltcy9yb2xlIjoiU3VwZXJBZG1pbiIsImV4cCI6MTc1MjA0NjQ2MSwiaXNzIjoiWmxpbS5Db3JlIiwiYXVkIjoiemxpbSJ9.2HwPfw0uf0gJJn8pi3--r0pr107pVj-5HttjU8NC2oU
+Authorization: Bearer {{BCVPDotNet8_Token}}
+##
+
+### 
+GET {{BCVPDotNet8_HostAddress}}/api/User/Get
+Accept: application/json
+Authorization: Bearer {{BCVPDotNet8_Token}}
+##
+
+### 403:因为数据库表中没有对 superAdmin 这个角色配置这个接口
+GET {{BCVPDotNet8_HostAddress}}/api/User/GetById?id=1
+Accept: application/json
+Authorization: Bearer {{BCVPDotNet8_Token}}
 ###

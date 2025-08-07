@@ -9,21 +9,56 @@ namespace BCVPDotNet8.Service
     public class UserService : BaseService<SysUserInfo, UserVo>, IUserService
     {
         private readonly IDepartmentService _departmentService;
+        private readonly IBaseRepository<Role> _roleRepository;
+        private readonly IBaseRepository<UserRole> _userRoleRepository;
+        private readonly IUserRepository _userRepository;
+
         public UserService(IMapper mapper, 
                             IBaseRepository<SysUserInfo> baseRepository,
-                            IDepartmentService departmentService
-                            ) 
+                            IDepartmentService departmentService,
+                            IBaseRepository<UserRole> userRoleRepository,
+                            IBaseRepository<Role> roleRepository,
+                            IUserRepository userRepository
+                            )
         : base(mapper, baseRepository)
         {
             _departmentService = departmentService;
+            _roleRepository = roleRepository;
+            _userRoleRepository = userRoleRepository;
+            _userRepository = userRepository;
         }
 
-        public async Task<List<UserVo>> Query()
-        { 
-            var userRepository = new UserRepository();
-            var users = await userRepository.Query();
-            return users.Select(u => new UserVo() { UserName = u.Name}).ToList();
+        public async Task<string> GetUserRoleNameStr(string loginName, string loginPwd)
+        {
+            string roleName = "";
+            var user = (await base.Query(a => a.LoginName == loginName && a.LoginPWD == loginPwd)).FirstOrDefault();
+            var roleList = await _roleRepository.Query(a => a.IsDeleted == false);
+            if (user != null)
+            {
+                var userRoles = await _userRoleRepository.Query(ur => ur.UserId == user.Id);
+                if (userRoles.Count > 0)
+                {
+                    var arr = userRoles.Select(ur => ur.RoleId.ObjToString()).ToList();
+                    var roles = roleList.Where(r => arr.Contains(r.Id.ObjToString()));
+
+                    roleName = string.Join(',', roles.Select(r => r.Name).ToArray());
+                } 
+            }
+
+            return roleName;
         }
+
+        public async Task<List<RoleModulePermission>> RoleModuleMaps()
+        {
+            return await _userRepository.RoleModuleMaps();
+        }
+
+        //public async Task<List<UserVo>> Query()
+        //{ 
+        //    var userRepository = new UserRepository();
+        //    var users = await userRepository.Query();
+        //    return users.Select(u => new UserVo() { UserName = u.Name}).ToList();
+        //}
 
         /// <summary>
         /// 测试使用同事务
