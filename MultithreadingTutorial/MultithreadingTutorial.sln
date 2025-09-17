@@ -5,6 +5,8 @@ VisualStudioVersion = 17.8.34316.72
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MultithreadingTutorial", "MultithreadingTutorial\MultithreadingTutorial.csproj", "{C0893BB9-BB7F-42D4-A54B-32AFD7397040}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NewLockObject", "NewLockObject\NewLockObject.csproj", "{9536B2BB-37DE-42EE-89F4-D4BE723FB278}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{C0893BB9-BB7F-42D4-A54B-32AFD7397040}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C0893BB9-BB7F-42D4-A54B-32AFD7397040}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C0893BB9-BB7F-42D4-A54B-32AFD7397040}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9536B2BB-37DE-42EE-89F4-D4BE723FB278}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9536B2BB-37DE-42EE-89F4-D4BE723FB278}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9536B2BB-37DE-42EE-89F4-D4BE723FB278}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9536B2BB-37DE-42EE-89F4-D4BE723FB278}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
