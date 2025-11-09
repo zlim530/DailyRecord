@@ -1,0 +1,18 @@
+﻿[
+  {
+    "type": "Salary",
+    "value": 3000
+  },
+  {
+    "type": "Rent",
+    "value": 500
+  },
+  {
+    "type": "Other",
+    "value": 3
+  },
+  {
+    "type": "2",
+    "value": 3
+  }
+]
