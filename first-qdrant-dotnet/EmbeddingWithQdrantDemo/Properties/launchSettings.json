@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "EmbeddingWithQdrantDemo": {
+      "commandName": "Project",
+      "environmentVariables": {
+        "AI_EmbeddingApiKey": "de8786231de34946bd6273aab333978a"
+      }
+    }
+  }
+}
