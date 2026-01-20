@@ -1,4 +1,5 @@
 <Solution>
   <Project Path="EmbeddingWithQdrantDemo/EmbeddingWithQdrantDemo.csproj" Id="4c3d611f-ca03-4f34-ae55-c97a6dac60c5" />
   <Project Path="first-qdrant-dotnet/first-qdrant-dotnet.csproj" />
+  <Project Path="OllamaWithSemanticKernel/OllamaWithSemanticKernel.csproj" Id="74394f62-1248-4747-b8c2-a748749ffade" />
 </Solution>
