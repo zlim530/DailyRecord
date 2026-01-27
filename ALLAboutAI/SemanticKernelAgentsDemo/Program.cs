@@ -12,81 +12,87 @@ using System.ComponentModel;
 using ChatMessageContent = Microsoft.SemanticKernel.ChatMessageContent;
 
 #region Multi-agent routing
-var kernel = Kernel.CreateBuilder()
+internal class Program
+{
+    private static async Task Main0(string[] args)
+    {
+        var kernel = Kernel.CreateBuilder()
     .AddAzureOpenAIChatCompletion(
         Environment.GetEnvironmentVariable("AZURE_OPENAI_DEPLOYMENT"),
         Environment.GetEnvironmentVariable("AZURE_OPENAI_ENDPOINT"),
         Environment.GetEnvironmentVariable("AZURE_OPENAI_API_KEY"))
     .Build();
 
-string ProgamManager = """
+        string ProgamManager = """
     You are a program manager which will take the requirement and create a plan for creating app. Program Manager understands the 
     user requirements and form the detail documents with requirements and costing. 
 """;
 
-string SoftwareEngineer = """
+        string SoftwareEngineer = """
    You are Software Engieer, and your goal is develop web app using HTML and JavaScript (JS) by taking into consideration all
    the requirements given by Program Manager. 
 """;
 
-string Manager = """
+        string Manager = """
     You are manager which will review software engineer code, and make sure all client requirements are completed.
      Once all client requirements are completed, you can approve the request by just responding "approve"
 """;
 
 #pragma warning disable SKEXP0110, SKEXP0001 // Rethrow to preserve stack details
 
-ChatCompletionAgent ProgaramManagerAgent =
-           new()
-           {
-               Instructions = ProgamManager,
-               Name = "ProgaramManagerAgent",
-               Kernel = kernel
-           };
+        ChatCompletionAgent ProgaramManagerAgent =
+                   new()
+                   {
+                       Instructions = ProgamManager,
+                       Name = "ProgaramManagerAgent",
+                       Kernel = kernel
+                   };
 
-ChatCompletionAgent SoftwareEngineerAgent =
-           new()
-           {
-               Instructions = SoftwareEngineer,
-               Name = "SoftwareEngineerAgent",
-               Kernel = kernel
-           };
+        ChatCompletionAgent SoftwareEngineerAgent =
+                   new()
+                   {
+                       Instructions = SoftwareEngineer,
+                       Name = "SoftwareEngineerAgent",
+                       Kernel = kernel
+                   };
 
-ChatCompletionAgent ProjectManagerAgent =
-           new()
-           {
-               Instructions = Manager,
-               Name = "ProjectManagerAgent",
-               Kernel = kernel
-           };
+        ChatCompletionAgent ProjectManagerAgent =
+                   new()
+                   {
+                       Instructions = Manager,
+                       Name = "ProjectManagerAgent",
+                       Kernel = kernel
+                   };
 
-AgentGroupChat chat =
-            new(ProgaramManagerAgent, SoftwareEngineerAgent, ProjectManagerAgent)
-            {
-                ExecutionSettings =
-                    new()
+        AgentGroupChat chat =
+                    new(ProgaramManagerAgent, SoftwareEngineerAgent, ProjectManagerAgent)
                     {
-                        TerminationStrategy =
-                            new ApprovalTerminationStrategy()
+                        ExecutionSettings =
+                            new()
                             {
-                                Agents = [ProjectManagerAgent],
-                                MaximumIterations = 6,
+                                TerminationStrategy =
+                                    new ApprovalTerminationStrategy()
+                                    {
+                                        Agents = [ProjectManagerAgent],
+                                        MaximumIterations = 6,
+                                    }
                             }
-                    }
-            };
+                    };
 
-string input = """
+        string input = """
         
         I want to develop calculator app. 
         Keep it very simple. And get final approval from manager.
         """;
 
-chat.AddChatMessage(new ChatMessageContent(AuthorRole.User, input));
-Console.WriteLine($"# {AuthorRole.User}: '{input}'");
+        chat.AddChatMessage(new ChatMessageContent(AuthorRole.User, input));
+        Console.WriteLine($"# {AuthorRole.User}: '{input}'");
 
-await foreach (var content in chat.InvokeAsync())
-{
-    Console.WriteLine($"# {content.Role} - {content.AuthorName ?? "*"}: '{content.Content}'");
+        await foreach (var content in chat.InvokeAsync())
+        {
+            Console.WriteLine($"# {content.Role} - {content.AuthorName ?? "*"}: '{content.Content}'");
+        }
+    }
 }
 
 #pragma warning disable SKEXP0001 // 类型仅用于评估，在将来的更新中可能会被更改或删除。取消此诊断以继续。

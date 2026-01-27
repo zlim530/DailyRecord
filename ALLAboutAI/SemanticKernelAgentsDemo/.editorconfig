@@ -5,3 +5,6 @@ dotnet_diagnostic.IDE0210.severity = none
 
 # IDE0008: 使用显式类型
 dotnet_diagnostic.IDE0008.severity = none
+
+# IDE0058: 永远不会使用表达式值
+dotnet_diagnostic.IDE0058.severity = none
