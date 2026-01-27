@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="../ProcessConsoleApp/ProcessConsoleApp.csproj" Id="9a283eb6-0a2f-4ef3-a00b-bf607217c834" />
+  <Project Path="SemanticKernelAgentsDemo.csproj" />
+</Solution>

@@ -1,0 +1,7 @@
+﻿[*.cs]
+
+# IDE0210: 转换为顶级语句
+dotnet_diagnostic.IDE0210.severity = none
+
+# IDE0008: 使用显式类型
+dotnet_diagnostic.IDE0008.severity = none
