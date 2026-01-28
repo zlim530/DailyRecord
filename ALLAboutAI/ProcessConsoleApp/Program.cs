@@ -8,7 +8,7 @@ namespace ProcessConsoleApp;
 
 class Program
 {
-    static async Task Main(string[] args)
+    static async Task Main0(string[] args)
     {
         // 配置日志  
         using var loggerFactory = LoggerFactory.Create(builder =>
